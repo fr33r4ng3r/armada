@@ -23,6 +23,7 @@ object Engine {
 
     val registrationChannel = Channel<RegistrationData>()
     val startChannel = Channel<Theatre>()
+    val finishChannel = Channel<Score>()
     val drawChannel = Channel<Int>()
 
     private val schedule = Array<LinkedBlockingDeque<Action>>(100000) { LinkedBlockingDeque() }
@@ -56,6 +57,7 @@ object Engine {
             markTime = System.nanoTime()
             while (isActive) {
                 Thread.sleep(10, 0)
+                var dirty = false
                 val now = System.nanoTime()
                 val deltaMs = TimeUnit.MILLISECONDS.convert(now - markTime, TimeUnit.NANOSECONDS)
                 markTime = now
@@ -71,6 +73,7 @@ object Engine {
                     if (dQ.isEmpty()) return@forEach
                     val actions = LinkedList<Action?>()
                     dQ.drainTo(actions)
+                    dirty = true
                     LOG.debug("launching ${actions.size} actions from $idx")
                     actions.forEach {
                         launch(Dispatchers.Default) {
@@ -78,8 +81,10 @@ object Engine {
                         }
                     }
                 }
-                launch(Dispatchers.JavaFx) {
-                    drawChannel.send(mark)
+                if (dirty) {
+                    launch(Dispatchers.JavaFx) {
+                        drawChannel.send(mark)
+                    }
                 }
             }
         }
@@ -87,11 +92,10 @@ object Engine {
 
     suspend fun start(theatre: Theatre) {
         startChannel.send(theatre)
-        theatre.satellite.startScanner()
     }
 
-    suspend fun stop(theatre: Theatre) {
-        theatre.satellite.stopScanner()
+    suspend fun finish(score: Score) {
+        finishChannel.send(score)
     }
 
     suspend fun register(data: RegistrationData): TheatreData? = coroutineScope {

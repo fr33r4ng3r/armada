@@ -9,11 +9,14 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @DelicateCoroutinesApi
-class Battery(val grid: BattleGrid) {
+class Battery(val grid: BattleGrid, val munitions: Int) {
 
     private val projectileAnimator = ProjectileAnimator()
 
     val turrets = LinkedList<Turret>()
+
+    var munitionsRemaining = munitions
+        private set
 
     inner class Turret(val x: Int, val y: Int, private val turnDegreesPerTick: Double) {
         val guns = LinkedList<Gun>()
@@ -58,6 +61,12 @@ class Battery(val grid: BattleGrid) {
                         Engine.Action.Result(false, "Cannot Fire! - gun has not been loaded")
                     }
                 }
+                if (munitionsRemaining <= 0) {
+                    return Engine.Todo(0) {
+                        Engine.Action.Result(false, "Cannot Fire! - out of ammunition")
+                    }
+                }
+                munitionsRemaining -= 1
                 val hullSegment = grid.damageLayer[this@Turret.targetX][this@Turret.targetY].content as? Ship.Companion.HullSegment
                 val willHit = hullSegment != null
                 Engine.scheduleImmediate(0) {

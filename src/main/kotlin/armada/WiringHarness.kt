@@ -1,19 +1,17 @@
 package armada
 
-import armada.engine.Battery
-import armada.engine.BattleGrid
-import armada.engine.Satellite
-import armada.engine.Theatre
+import armada.engine.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import java.util.concurrent.atomic.AtomicReference
 
 @DelicateCoroutinesApi
 object WiringHarness {
 
-    private val batteryRef = AtomicReference(Battery(BattleGrid.DEFAULT))
+    private val batteryRef = AtomicReference(Battery(BattleGrid.DEFAULT, 0))
     private val satelliteRef = AtomicReference(Satellite(BattleGrid.DEFAULT, 10, 3))
     private val battleGridRef = AtomicReference(BattleGrid.DEFAULT)
     private val theatreRef = AtomicReference(Theatre(BattleGrid.DEFAULT, batteryRef.get(), satellite))
+    private val scoreKeeperRef = AtomicReference(ScoreKeeper({}, {}))
 
     var battleGrid: BattleGrid
         get() = battleGridRef.get()
@@ -30,5 +28,9 @@ object WiringHarness {
     var satellite: Satellite
         get() = satelliteRef.get()
         set(value) = satelliteRef.set(value)
+
+    var scoreKeeper: ScoreKeeper
+        get() = scoreKeeperRef.get()
+        set(value) = scoreKeeperRef.set(value)
 
 }

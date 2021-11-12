@@ -1,6 +1,8 @@
 package armada.ui.sprites
 
+import armada.engine.Dimensions
 import armada.engine.Orientation
+import armada.engine.ships.Carrier
 import armada.engine.ships.Cruiser
 import armada.utils.ImageUtils.rotate
 import armada.utils.ImageUtils.toFXImage
@@ -22,6 +24,7 @@ object CruiserSprite : ShipSprite {
         baseGridSize = 45.0
     )
 
-    override val engineObject = Cruiser
+    override val dimensions: Dimensions
+        get() = Cruiser.dimensions
 
 }

@@ -1,6 +1,8 @@
 package armada.ui.sprites
 
+import armada.engine.Dimensions
 import armada.engine.Orientation
+import armada.engine.ships.Carrier
 import armada.engine.ships.PatrolBoat
 import armada.utils.ImageUtils.rotate
 import armada.utils.ImageUtils.toFXImage
@@ -19,6 +21,7 @@ object PatrolBoatSprite : ShipSprite {
         baseGridSize = 40.0
     )
 
-    override val engineObject = PatrolBoat
+    override val dimensions: Dimensions
+        get() = PatrolBoat.dimensions
 
 }

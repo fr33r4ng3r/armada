@@ -3,5 +3,8 @@ package armada.engine.ships
 import armada.engine.Dimensions
 import armada.engine.Ship
 
-object Destroyer: Ship(Dimensions(1, 3), 2) {
+class Destroyer: Ship(dimensions, 2) {
+    companion object {
+        val dimensions = Dimensions(1, 3)
+    }
 }

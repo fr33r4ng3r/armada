@@ -1,6 +1,8 @@
 package armada.ui.sprites
 
+import armada.engine.Dimensions
 import armada.engine.Orientation
+import armada.engine.ships.BattleShip
 import armada.engine.ships.Carrier
 import armada.utils.ImageUtils.rotate
 import armada.utils.ImageUtils.toFXImage
@@ -14,7 +16,8 @@ object CarrierSprite : ShipSprite {
     private val base0 = base.toFXImage()
     private val base90 = base.rotate(90.0).toFXImage()
 
-    override val engineObject = Carrier
+    override val dimensions: Dimensions
+        get() = Carrier.dimensions
 
     override fun meta() = ShipSprite.Meta(
         image0 = base0,

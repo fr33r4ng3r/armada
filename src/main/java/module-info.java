@@ -25,7 +25,7 @@ module armada.main {
     requires org.slf4j;
 
     opens armada to javafx.base, javafx.fxml;
-    opens armada.engine.server to spring.core;
+    opens armada.engine.server to spring.core, kotlin.reflect;
     opens armada.engine.api to com.fasterxml.jackson.databind;
 
     exports armada to javafx.fxml, javafx.graphics;

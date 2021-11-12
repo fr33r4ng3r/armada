@@ -1,5 +1,6 @@
 package armada.ui.sprites
 
+import armada.engine.Dimensions
 import armada.engine.Orientation
 import armada.engine.ships.BattleShip
 import armada.utils.ImageUtils.rotate
@@ -22,6 +23,7 @@ object BattleshipSprite : ShipSprite {
         baseGridSize = 56.0
     )
 
-    override val engineObject = BattleShip
+    override val dimensions: Dimensions
+        get() = BattleShip.dimensions
 
 }

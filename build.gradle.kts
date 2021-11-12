@@ -14,12 +14,15 @@ repositories {
 
 dependencies {
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.5.2-native-mt")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.5.2-native-mt")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-javafx:1.5.2-native-mt")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.5.2-native-mt")
     implementation("com.jfoenix:jfoenix:9.0.10")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.springframework.boot:spring-boot-starter-webflux:2.5.6")
+    implementation("org.springframework.boot:spring-boot-starter-rsocket:2.5.6")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -75,6 +78,7 @@ jlink {
     options.addAll("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages")
     addExtraDependencies("javafx")
     mergedModule {
+        additive = true
         uses("ch.qos.logback.classic.spi.Configurator")
         excludeRequires("com.fasterxml.jackson.module.paramnames")
         excludeProvides(mapOf("implementation" to "com.sun.xml.bind.v2.ContextFactory"))
@@ -87,6 +91,10 @@ jlink {
     launcher {
         name = "armada"
         version = tag
+        setJvmArgs(listOf(
+            "--add-reads", "armada.merged.module=kotlin.reflect",
+            "--add-reads", "armada.merged.module=armada.main"
+        ))
     }
     jpackage {
         imageOptions.addAll(arrayOf("--resource-dir", "${projectDir}\\jpackage", "--verbose"))

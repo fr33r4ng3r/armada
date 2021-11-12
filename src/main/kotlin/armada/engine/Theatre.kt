@@ -11,22 +11,12 @@ import kotlin.random.Random
 class Theatre(val grid: BattleGrid, val battery: Battery, val satellite: Satellite) {
 
     val ships = arrayOf(
-        BattleShip,
-        Carrier,
-        Cruiser,
-        Destroyer,
-        PatrolBoat
+        BattleShip(),
+        Carrier(),
+        Cruiser(),
+        Destroyer(),
+        PatrolBoat()
     )
-
-    init {
-        ships.forEach { ship ->
-            ship.hull.forEach { row ->
-                row.forEach { tile ->
-                    tile.health.set(2)
-                }
-            }
-        }
-    }
 
     val projectiles = synchronizedList(LinkedList<Projectile>())
 

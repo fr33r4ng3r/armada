@@ -60,6 +60,10 @@ class Satellite(val grid: BattleGrid, val scanRateTicksPerTile: Int, val scanBuf
         job?.cancelAndJoin()
     }
 
+    fun scanBuffer(): List<Double> {
+        return buffer.map { t -> ((t.content as? Ship.Companion.HullSegment)?.health?.get() ?: 2) / 2.0 }
+    }
+
     companion object {
         class Scan(val signal: Int) : Tile.Companion.Content
     }

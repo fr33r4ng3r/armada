@@ -2,18 +2,22 @@ package armada.engine.server
 
 import armada.WiringHarness
 import armada.engine.Engine
+import armada.engine.Score
 import armada.engine.api.*
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.reactor.flux
 import kotlinx.coroutines.reactor.mono
 import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.util.concurrent.TimeUnit
 
 @DelicateCoroutinesApi
 @RestController
 class Commander {
 
     @GetMapping("/ping", produces = ["text/plain"])
-    fun blog(): Mono<String> {
+    fun ping(): Mono<String> {
         return Mono.just("pong")
     }
 
@@ -45,6 +49,29 @@ class Commander {
         val battery = WiringHarness.battery
         val todo = with(data) { battery.turrets[turret].guns[gun].fire() }
         return mono { ActionResultData.from(Engine.schedule(todo.tFuture, todo.action)) }
+    }
+
+    @GetMapping("/scan")
+    @ResponseBody
+    fun scan(): Flux<ScanData> {
+        val satellite = WiringHarness.satellite
+        return flux { satellite.scanBuffer() }
+    }
+
+    @GetMapping("/finish")
+    @ResponseBody
+    fun finish(): Mono<ScoreData> {
+        return mono {
+            val munitions = WiringHarness.battery.munitions
+            val score = WiringHarness.scoreKeeper.stop()
+            Engine.finish(score)
+            ScoreData(
+                true,
+                0,
+                score.time.toNanos() / TimeUnit.SECONDS.toNanos(1).toDouble(),
+                munitions - score.munitionsRemaining
+            )
+        }
     }
 
 }

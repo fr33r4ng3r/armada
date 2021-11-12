@@ -18,7 +18,7 @@ import java.util.logging.Logger
 class Main : Application() {
     override fun start(stage: Stage) {
 
-        stage.initStyle(StageStyle.UNDECORATED)
+//        stage.initStyle(StageStyle.UNDECORATED)
 
         Thread.currentThread().uncaughtExceptionHandler =
             UncaughtExceptionHandler { _: Thread?, throwable: Throwable ->

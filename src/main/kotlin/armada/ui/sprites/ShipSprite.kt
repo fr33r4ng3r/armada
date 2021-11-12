@@ -1,12 +1,10 @@
 package armada.ui.sprites
 
-import armada.engine.Orientation
-import armada.engine.Ship
-import armada.engine.StrictReference
+import armada.engine.*
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.image.Image
 
-interface ShipSprite : Sprite, StrictReference<Ship> {
+interface ShipSprite : Sprite, DimensionsProvider {
 
     data class Meta(
         val image0: Image,
@@ -22,13 +20,13 @@ interface ShipSprite : Sprite, StrictReference<Ship> {
         val meta = meta()
 
         val drawWidth = when (meta.defaultOrientation) {
-            Orientation.vertical -> engineObject.dimensions.width
-            Orientation.horizontal -> engineObject.dimensions.length
+            Orientation.vertical -> dimensions.width
+            Orientation.horizontal -> dimensions.length
         } * gridSize
 
         val drawHeight = when (meta.defaultOrientation) {
-            Orientation.vertical -> engineObject.dimensions.length
-            Orientation.horizontal -> engineObject.dimensions.width
+            Orientation.vertical -> dimensions.length
+            Orientation.horizontal -> dimensions.width
         } * gridSize
 
         val fActual = (gridSize / meta.baseGridSize)
@@ -46,6 +44,5 @@ interface ShipSprite : Sprite, StrictReference<Ship> {
             val yActual = (y * gridSize) + offsetY
             gc.drawImage(meta.image0, xActual, yActual, wActual, hActual)
         }
-
     }
 }
