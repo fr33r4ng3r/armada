@@ -50,7 +50,7 @@ class Theatre(val grid: BattleGrid, val battery: Battery, val satellite: Satelli
                         if (offsetX < 0) {
                             x += offsetX
                         }
-                        val offsetY = grid.width - (y + ship.dimensions.width)
+                        val offsetY = grid.height - (y + ship.dimensions.width)
                         if (offsetY < 0) {
                             y += offsetY
                         }
