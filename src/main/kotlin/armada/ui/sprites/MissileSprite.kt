@@ -6,7 +6,9 @@ import armada.utils.ImageUtils.rotateNormalized
 import armada.utils.ImageUtils.toFXImage
 import javafx.scene.canvas.GraphicsContext
 import javax.imageio.ImageIO
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 object MissileSprite {
 
     private val base = ImageIO.read(javaClass.getResourceAsStream("/armada/sprites/Plane/Missile.png"))

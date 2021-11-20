@@ -5,7 +5,9 @@ import armada.engine.ships.*
 import armada.ui.sprites.*
 import javafx.scene.canvas.GraphicsContext
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @DelicateCoroutinesApi
 class ShipPainter {
 

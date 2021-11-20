@@ -9,9 +9,9 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.ExperimentalTime
 import kotlin.time.milliseconds
 
-@OptIn(ExperimentalTime::class)
+@ExperimentalTime
 @DelicateCoroutinesApi
-class Satellite(val grid: BattleGrid, val scanRateTicksPerTile: Int, val scanBufferSize: Int) {
+class Satellite(val grid: BattleGrid, scanRateTicksPerTile: Int, private val scanBufferSize: Int) {
 
     val scansLayer = (0 until grid.width).map { x -> Array(grid.height) { y -> Tile(x, y) } }.toTypedArray()
     val sender: MutableSharedFlow<ScanData> = MutableSharedFlow()

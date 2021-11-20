@@ -5,7 +5,9 @@ import armada.engine.Satellite
 import armada.ui.sprites.ScannerSprite
 import javafx.scene.canvas.GraphicsContext
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @DelicateCoroutinesApi
 class SatelliteOverlayPainter {
 

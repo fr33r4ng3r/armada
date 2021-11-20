@@ -6,7 +6,9 @@ import armada.ui.sprites.CrossHairsSprite
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.paint.Color
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @DelicateCoroutinesApi
 class ActionsOverlayPainter {
 

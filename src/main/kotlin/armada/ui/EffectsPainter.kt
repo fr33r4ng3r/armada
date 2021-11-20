@@ -7,7 +7,9 @@ import armada.ui.sprites.ExplosionSprite
 import armada.ui.sprites.SplashSprite
 import javafx.scene.canvas.GraphicsContext
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @DelicateCoroutinesApi
 class EffectsPainter {
 

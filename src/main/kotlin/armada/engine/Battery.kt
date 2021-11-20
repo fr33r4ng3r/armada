@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @DelicateCoroutinesApi
 class Battery(val grid: BattleGrid, val munitions: Int) {
 

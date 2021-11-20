@@ -5,7 +5,9 @@ import armada.engine.Engine
 import armada.engine.animation.effect.ExplosionEffect
 import armada.engine.animation.effect.SplashEffect
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @DelicateCoroutinesApi
 class EffectsAnimator : Animator {
 

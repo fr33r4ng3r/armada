@@ -6,7 +6,9 @@ import java.util.*
 import java.util.Collections.synchronizedList
 import kotlin.collections.HashMap
 import kotlin.random.Random
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @DelicateCoroutinesApi
 class Theatre(val grid: BattleGrid, val battery: Battery, val satellite: Satellite) {
 

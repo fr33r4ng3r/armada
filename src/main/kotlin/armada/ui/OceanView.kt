@@ -3,8 +3,10 @@ package armada.ui
 import javafx.scene.canvas.Canvas
 import javafx.scene.image.Image
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlin.time.ExperimentalTime
 
 
+@ExperimentalTime
 @DelicateCoroutinesApi
 class OceanView : Canvas() {
 

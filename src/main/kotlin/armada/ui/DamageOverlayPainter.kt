@@ -4,7 +4,9 @@ import armada.WiringHarness
 import armada.engine.Ship
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.paint.Color
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 class DamageOverlayPainter {
 
     fun paint(gc: GraphicsContext, gridSize: Double) {

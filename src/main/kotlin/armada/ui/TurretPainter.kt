@@ -4,7 +4,9 @@ import armada.WiringHarness
 import armada.ui.sprites.TurretSprite
 import javafx.scene.canvas.GraphicsContext
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @DelicateCoroutinesApi
 class TurretPainter {
 

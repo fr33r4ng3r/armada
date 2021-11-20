@@ -27,7 +27,9 @@ import kotlinx.coroutines.selects.select
 import java.net.URL
 import java.util.*
 import java.util.prefs.Preferences
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @ObsoleteCoroutinesApi
 @DelicateCoroutinesApi
 class Controller : Initializable {
@@ -216,13 +218,13 @@ class Controller : Initializable {
             battery.turrets[i].let {
                 it.guns.addAll(
                     listOf(
-                        it.Gun(10, 5),
-                        it.Gun(10, 5)
+                        it.Gun(20, 5),
+                        it.Gun(20, 5)
                     )
                 )
             }
         }
-        val satellite = Satellite(grid, 5, 3)
+        val satellite = Satellite(grid, 1, 3)
         val theatre = Theatre(grid, battery, satellite)
         theatre.randomize()
 

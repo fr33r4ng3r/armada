@@ -4,7 +4,9 @@ import armada.WiringHarness
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.paint.Color
 import kotlin.math.min
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 class BattleGridPainter {
 
     fun paint(gc: GraphicsContext, width: Double, height: Double): Double {

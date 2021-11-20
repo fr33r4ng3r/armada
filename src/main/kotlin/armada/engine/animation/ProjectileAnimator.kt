@@ -10,7 +10,9 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import org.slf4j.LoggerFactory
 import java.lang.Math.toRadians
 import kotlin.math.*
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @DelicateCoroutinesApi
 class ProjectileAnimator : Animator {
 

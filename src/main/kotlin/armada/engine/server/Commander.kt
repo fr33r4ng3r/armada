@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.util.concurrent.TimeUnit
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @OptIn(ExperimentalCoroutinesApi::class)
 @DelicateCoroutinesApi
 @RestController

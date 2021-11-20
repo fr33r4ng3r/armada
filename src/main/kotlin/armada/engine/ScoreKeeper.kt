@@ -7,7 +7,9 @@ import kotlinx.coroutines.javafx.JavaFx
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.concurrent.Executors
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @DelicateCoroutinesApi
 class ScoreKeeper(private val munitionsUpdater: Updater, private val timeUpdater: Updater) {
 
