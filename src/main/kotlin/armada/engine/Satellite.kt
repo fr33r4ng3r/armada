@@ -1,12 +1,20 @@
 package armada.engine
 
+import armada.engine.api.ScanData
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableSharedFlow
 import java.util.concurrent.Executors
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.ExperimentalTime
+import kotlin.time.milliseconds
 
+@OptIn(ExperimentalTime::class)
 @DelicateCoroutinesApi
 class Satellite(val grid: BattleGrid, val scanRateTicksPerTile: Int, val scanBufferSize: Int) {
 
     val scansLayer = (0 until grid.width).map { x -> Array(grid.height) { y -> Tile(x, y) } }.toTypedArray()
+    val sender: MutableSharedFlow<ScanData> = MutableSharedFlow()
 
     private val buffer = Array(scanBufferSize) { grid.damageLayer[0][0] }
     private val delay = 10L * scanRateTicksPerTile
@@ -49,9 +57,11 @@ class Satellite(val grid: BattleGrid, val scanRateTicksPerTile: Int, val scanBuf
                         }
                     }
                 }
-                buffer[buffer.size - 1] = grid.damageLayer[x][y]
+                val tile = grid.damageLayer[x][y]
+                buffer[buffer.size - 1] = tile
+                sender.emit(ScanData(tile.x, tile.y, tileToHeat(tile)))
                 scansLayer[x][y].content = Scan(scanBufferSize)
-                Thread.sleep(delay, 0)
+                delay(milliseconds(delay))
             }
         }
     }
@@ -60,12 +70,16 @@ class Satellite(val grid: BattleGrid, val scanRateTicksPerTile: Int, val scanBuf
         job?.cancelAndJoin()
     }
 
-    fun scanBuffer(): List<Double> {
-        return buffer.map { t -> ((t.content as? Ship.Companion.HullSegment)?.health?.get() ?: 2) / 2.0 }
+    fun scanBuffer(): List<ScanData> {
+        return buffer.map { t -> ScanData(t.x, t.y, tileToHeat(t)) }
     }
 
     companion object {
         class Scan(val signal: Int) : Tile.Companion.Content
+
+        fun tileToHeat(tile: Tile): Double {
+            return 1.0 - ((tile.content as? Ship.Companion.HullSegment)?.health?.get() ?: 2) / 2.0
+        }
     }
 
 }

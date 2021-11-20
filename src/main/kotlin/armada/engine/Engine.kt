@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package armada.engine
 
 import armada.engine.api.RegistrationData
@@ -15,6 +17,9 @@ import org.springframework.context.ConfigurableApplicationContext
 import java.util.*
 import java.util.concurrent.*
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.ExperimentalTime
 
 @DelicateCoroutinesApi
 object Engine {
@@ -39,6 +44,8 @@ object Engine {
             setDefaultProperties(
                 mapOf(
                     "server.port" to "7000",
+                    "spring.rsocket.server.transport" to "websocket",
+                    "spring.rsocket.server.mapping-path" to "/rsocket"
                 )
             )
             setBannerMode(Banner.Mode.OFF)
@@ -56,8 +63,7 @@ object Engine {
         }.asCoroutineDispatcher()) {
             markTime = System.nanoTime()
             while (isActive) {
-                Thread.sleep(10, 0)
-                var dirty = false
+                delay(milliseconds(10))
                 val now = System.nanoTime()
                 val deltaMs = TimeUnit.MILLISECONDS.convert(now - markTime, TimeUnit.NANOSECONDS)
                 markTime = now
@@ -73,7 +79,6 @@ object Engine {
                     if (dQ.isEmpty()) return@forEach
                     val actions = LinkedList<Action?>()
                     dQ.drainTo(actions)
-                    dirty = true
                     LOG.debug("launching ${actions.size} actions from $idx")
                     actions.forEach {
                         launch(Dispatchers.Default) {
@@ -81,10 +86,8 @@ object Engine {
                         }
                     }
                 }
-                if (dirty) {
-                    launch(Dispatchers.JavaFx) {
-                        drawChannel.send(mark)
-                    }
+                launch(Dispatchers.JavaFx) {
+                    drawChannel.send(mark)
                 }
             }
         }

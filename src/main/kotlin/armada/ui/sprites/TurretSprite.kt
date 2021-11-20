@@ -15,7 +15,9 @@ object TurretSprite : Sprite {
     private val baseR = (0..359).map { a -> baseScaled.rotateNormalized(a.toDouble()).toFXImage() }.toTypedArray()
 
     override fun draw(gc: GraphicsContext, x: Int, y: Int, rotation: Double, gridSize: Double) {
-        val r = (if (rotation >= 360) rotation - 360 else if (rotation < 0) rotation + 360 else rotation).toInt()
+        var r = rotation.toInt()
+        while (r >= 360) r -= 360
+        while (r < 0) r += 360
         gc.drawImage(baseR[r], x * gridSize, y * gridSize, gridSize, gridSize)
     }
 

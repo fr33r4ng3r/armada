@@ -23,12 +23,13 @@ module armada.main {
     requires kotlinx.coroutines.reactor;
     requires com.fasterxml.jackson.kotlin;
     requires org.slf4j;
+    requires spring.messaging;
 
     opens armada to javafx.base, javafx.fxml;
     opens armada.engine.server to spring.core, kotlin.reflect;
     opens armada.engine.api to com.fasterxml.jackson.databind;
 
     exports armada to javafx.fxml, javafx.graphics;
-    exports armada.engine.server to spring.beans, spring.context, spring.webflux, kotlin.reflect;
+    exports armada.engine.server to spring.beans, spring.context, spring.webflux, spring.messaging, kotlin.reflect;
     exports armada.engine.api to com.fasterxml.jackson.databind;
 }

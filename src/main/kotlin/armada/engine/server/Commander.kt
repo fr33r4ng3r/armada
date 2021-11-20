@@ -5,6 +5,8 @@ import armada.engine.Engine
 import armada.engine.Score
 import armada.engine.api.*
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.reactor.flux
 import kotlinx.coroutines.reactor.mono
 import org.springframework.web.bind.annotation.*
@@ -12,8 +14,10 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.util.concurrent.TimeUnit
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @DelicateCoroutinesApi
 @RestController
+@RequestMapping("api/v1")
 class Commander {
 
     @GetMapping("/ping", produces = ["text/plain"])
@@ -55,7 +59,7 @@ class Commander {
     @ResponseBody
     fun scan(): Flux<ScanData> {
         val satellite = WiringHarness.satellite
-        return flux { satellite.scanBuffer() }
+        return flux { satellite.scanBuffer().asFlow() }
     }
 
     @GetMapping("/finish")

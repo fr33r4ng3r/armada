@@ -1,3 +1,3 @@
 package armada.engine.api
 
-data class ScanData(val thermalIndex: Double)
+data class ScanData(val x: Int, val y: Int, val thermalIndex: Double)
